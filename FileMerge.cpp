@@ -84,20 +84,20 @@ int main() {
     // Loop para processar cada arquivo presente no vetor fileNames
     for (int i = 0; i < fileNumber; i++) {
         std::ifstream arq(fileNames[i]); // Abre o arquivo em modo leitura
-        std::string line;
-        int pos_line = 0;
+        std::string line; // Variável q indica a linha a ser lida
+        int pos_line = 0; // Auxiliar
 
         // Verifica se o arquivo foi aberto corretamente
         if (arq.is_open()) {
             // Loop para ler cada linha do arquivo e escrevê-las no arquivo de saída
             while (!arq.eof()) {
-                if (pos_line == 0 && i != 0) {
-                    std::getline(arq, line); // Lê a linha (ignorando cabeçalho dos arquivos a partir do segundo)
-                    pos_line = 1;
-                } else {
-                    std::getline(arq, line); // Lê a linha
+                std::getline(arq, line);    // Lê a linha
+                // Se a posição da linha for maior que 1
+                // Se for o primeiro arquivo e a posição da linha for 1
+                if (pos_line > 1 || (i == 0 && pos_line == 1))
                     fileOutput << line << std::endl; // Escreve a linha no arquivo de saída
                 }
+                pos_line ++;
             }
         }
         arq.close(); // Fecha o arquivo atual
