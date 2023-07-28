@@ -17,9 +17,10 @@ de saída podem ser nos formatos acima citados.
 #include <vector>
 #include <string>
 #include <dirent.h>
+#include <unistd.h>
 
-//Caminho dos Arquivos que serão juntados
-#define FOLDER_PATH "C:\\TESLA\\codigo\\DataloggerFileMerge"
+// Caminho dos Arquivos que serão juntados
+// #define FOLDER_PATH "C:\\Tesla\\Datalogger\\DataloggerFileMerge"
 
 //Nome do arquivo que será gerado (csv, txt, xlsx, etc)
 #define OUTPUT_FILE_NAME "merge.csv"
@@ -30,9 +31,29 @@ de saída podem ser nos formatos acima citados.
 //Tipo dos arquivos base (csv, txt, xlsx, etc)
 #define ARQ_TYPE ".csv"
 
+std::string replaceAll(const std::string& str, const std::string& from, const std::string& to) {
+    std::string result = str;
+    size_t startPos = 0;
+    while ((startPos = result.find(from, startPos)) != std::string::npos) {
+        result.replace(startPos, from.length(), to);
+        startPos += to.length();
+    }
+    return result;
+}
+
+std::string FolderPath () {
+    char buffer[150];
+    if (getcwd(buffer, sizeof(buffer)) != nullptr) {
+        std::string pathString(buffer);
+
+        // Substituir todas as ocorrências de '\' por '\\'
+        pathString = replaceAll(pathString, "\\", "\\\\");
+        return pathString;
+    }
+}
 //Retorna o número de arquivos na pasta do caminho (pode ser txt ou csv)
 int FileNumber() {
-    std::string folderPath = FOLDER_PATH; // Caminho para a pasta
+    std::string folderPath = FolderPath(); // Caminho para a pasta
 
     DIR* directory = opendir(folderPath.c_str()); // Abre o diretório
     if (directory == nullptr) {
@@ -58,14 +79,16 @@ int FileNumber() {
     return arqFileCount; // Retorna o número total de arquivos com a extensão especificada
 }
 
-int main() {
 
+int main() {
     int fileNumber = FileNumber();
 
     // Cria um vector com todos os arquivos
     std::vector<std::string> fileNames;
     std::string aux_fileNames;
     int x = 0;
+
+    std::cout << "Caminho da pasta:\n" << FolderPath() << std::endl;
     std::cout << "Adicionando arquivo:" << std::endl;
 
     // Loop para gerar os nomes dos arquivos e adicioná-los ao vetor
