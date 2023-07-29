@@ -117,7 +117,7 @@ int main() {
                 std::getline(arq, line);    // Lê a linha
                 // Se a posição da linha for maior que 1
                 // Se for o primeiro arquivo e a posição da linha for 1
-                if (pos_line > 1 || (i == 0 && pos_line == 1)) {
+                if (pos_line > 1 || i == 0) {
                     fileOutput << line << std::endl; // Escreve a linha no arquivo de saída
                 }
                 pos_line ++;
