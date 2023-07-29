@@ -79,8 +79,18 @@ int FileNumber() {
     return arqFileCount; // Retorna o número total de arquivos com a extensão especificada
 }
 
+std::string FolderName(const std::string& path) {
+    size_t lastSlashPos = path.find_last_of("\\");
+    if (lastSlashPos != std::string::npos) {
+        return path.substr(lastSlashPos + 1);
+    }
+    return "";
+}
 
 int main() {
+
+    // std::string name = FolderPath ();
+
     int fileNumber = FileNumber();
 
     // Cria um vector com todos os arquivos
@@ -102,7 +112,7 @@ int main() {
     }
 
     // Abre o arquivo de saída para escrita
-    std::ofstream fileOutput(OUTPUT_FILE_NAME, std::ios::out);
+    std::ofstream fileOutput(FolderName(FolderPath()), std::ios::out);
 
     // Loop para processar cada arquivo presente no vetor fileNames
     for (int i = 0; i < fileNumber; i++) {
