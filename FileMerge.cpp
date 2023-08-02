@@ -31,6 +31,8 @@ de saída podem ser nos formatos acima citados.
 //Tipo dos arquivos base (csv, txt, xlsx, etc)
 #define ARQ_TYPE ".csv"
 
+#define ARQ_OUT_TYPE ".csv"
+
 std::string replaceAll(const std::string& str, const std::string& from, const std::string& to) {
     std::string result = str;
     size_t startPos = 0;
@@ -112,7 +114,7 @@ int main() {
     }
 
     // Abre o arquivo de saída para escrita
-    std::ofstream fileOutput(FolderName(FolderPath()), std::ios::out);
+    std::ofstream fileOutput(FolderName(FolderPath())+ARQ_OUT_TYPE, std::ios::out);
 
     // Loop para processar cada arquivo presente no vetor fileNames
     for (int i = 0; i < fileNumber; i++) {
